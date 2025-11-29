@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { API } from "../../store/auth.js";
-import { QrReader } from "react-qr-reader";
+import { QrScanner } from "@yudiel/react-qr-scanner";
 import Modal from "../../components/Modal.jsx";
 
 export default function ScannerTab({ onComplete }) {
@@ -140,26 +140,26 @@ export default function ScannerTab({ onComplete }) {
             </div>
           ) : (
             <div className="relative">
-              <QrReader
-                constraints={{ facingMode: "environment" }}
-                onResult={(result, error) => {
-                  if (!!result) {
-                    handleScan(result?.text);
+              <QrScanner
+                onDecode={(text) => {
+                  if (text) {
+                    handleScan(text);
                     setStatus("QR detected");
                   }
-                  if (!!error && error.name === "NotAllowedError") {
+                }}
+                onError={(error) => {
+                  if (error?.name === "NotAllowedError") {
                     setCameraError(
                       "Camera permission denied. Please allow camera access and reload."
                     );
-                  } else if (!!error && error.name === "NotFoundError") {
+                  } else if (error?.name === "NotFoundError") {
                     setCameraError("No camera found on this device.");
-                  } else if (!!error && !cameraError) {
-                    // Generic camera initialization - don't spam errors
+                  } else if (!cameraError) {
                     setStatus("Initializing camera...");
                   }
                 }}
-                style={{ width: "100%" }}
-                videoStyle={{ borderRadius: "0.5rem" }}
+                constraints={{ facingMode: "environment" }}
+                className="w-full rounded"
               />
             </div>
           )}
