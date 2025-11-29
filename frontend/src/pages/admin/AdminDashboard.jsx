@@ -125,7 +125,9 @@ export default function AdminDashboard() {
       {tab === "students" && (
         <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
-            <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Add Student</h2>
+            <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
+              Add Student
+            </h2>
 
             {message.text && (
               <div
@@ -199,7 +201,9 @@ export default function AdminDashboard() {
           </div>
 
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
-            <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Students ({students.length})</h2>
+            <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
+              Students ({students.length})
+            </h2>
             <div className="overflow-x-auto -mx-4 sm:mx-0">
               <div className="inline-block min-w-full align-middle">
                 <div className="overflow-auto max-h-96">
@@ -208,20 +212,36 @@ export default function AdminDashboard() {
                       <tr>
                         <th className="text-left p-2 sm:p-3">Roll</th>
                         <th className="text-left p-2 sm:p-3">Name</th>
-                        <th className="text-left p-2 sm:p-3 hidden sm:table-cell">Dept</th>
-                        <th className="text-left p-2 sm:p-3 hidden md:table-cell">Sem</th>
-                        <th className="text-left p-2 sm:p-3 hidden md:table-cell">Sec</th>
+                        <th className="text-left p-2 sm:p-3 hidden sm:table-cell">
+                          Dept
+                        </th>
+                        <th className="text-left p-2 sm:p-3 hidden md:table-cell">
+                          Sem
+                        </th>
+                        <th className="text-left p-2 sm:p-3 hidden md:table-cell">
+                          Sec
+                        </th>
                         <th className="text-left p-2 sm:p-3">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {students.map((s) => (
-                        <tr key={s.id} className="border-t hover:bg-gray-50 transition-colors">
-                          <td className="p-2 sm:p-3 font-medium">{s.rollNumber}</td>
+                        <tr
+                          key={s.id}
+                          className="border-t hover:bg-gray-50 transition-colors">
+                          <td className="p-2 sm:p-3 font-medium">
+                            {s.rollNumber}
+                          </td>
                           <td className="p-2 sm:p-3">{s.name}</td>
-                          <td className="p-2 sm:p-3 hidden sm:table-cell">{s.department}</td>
-                          <td className="p-2 sm:p-3 hidden md:table-cell">{s.semester}</td>
-                          <td className="p-2 sm:p-3 hidden md:table-cell">{s.section}</td>
+                          <td className="p-2 sm:p-3 hidden sm:table-cell">
+                            {s.department}
+                          </td>
+                          <td className="p-2 sm:p-3 hidden md:table-cell">
+                            {s.semester}
+                          </td>
+                          <td className="p-2 sm:p-3 hidden md:table-cell">
+                            {s.section}
+                          </td>
                           <td className="p-2 sm:p-3">
                             <button
                               className="text-blue-600 hover:text-blue-800 hover:underline text-xs sm:text-sm font-medium"
@@ -240,10 +260,14 @@ export default function AdminDashboard() {
 
           {idCard && (
             <div className="lg:col-span-2 bg-white p-4 sm:p-6 rounded-lg shadow">
-              <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">ID Card & QR Code</h2>
+              <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
+                ID Card & QR Code
+              </h2>
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center sm:items-start">
                 <img
-                  src={idCard.student.photo || "https://via.placeholder.com/100"}
+                  src={
+                    idCard.student.photo || "https://via.placeholder.com/100"
+                  }
                   alt="photo"
                   className="w-20 h-20 sm:w-24 sm:h-24 object-cover bg-gray-200 rounded-lg border-2 border-gray-300"
                 />
@@ -261,7 +285,11 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <div className="bg-white p-2 rounded-lg border-2 border-gray-300 shadow-sm">
-                  <img src={idCard.qr} alt="QR" className="w-28 h-28 sm:w-32 sm:h-32" />
+                  <img
+                    src={idCard.qr}
+                    alt="QR"
+                    className="w-28 h-28 sm:w-32 sm:h-32"
+                  />
                 </div>
               </div>
               <button
@@ -299,18 +327,30 @@ export default function AdminDashboard() {
                       <tr>
                         <th className="text-left p-2 sm:p-3">Roll</th>
                         <th className="text-left p-2 sm:p-3">Name</th>
-                        <th className="text-left p-2 sm:p-3 hidden md:table-cell">Department</th>
-                        <th className="text-left p-2 sm:p-3 hidden lg:table-cell">Section</th>
+                        <th className="text-left p-2 sm:p-3 hidden md:table-cell">
+                          Department
+                        </th>
+                        <th className="text-left p-2 sm:p-3 hidden lg:table-cell">
+                          Section
+                        </th>
                         <th className="text-left p-2 sm:p-3">Time</th>
                       </tr>
                     </thead>
                     <tbody>
                       {attendance.map((r, i) => (
-                        <tr key={i} className="border-t hover:bg-gray-50 transition-colors">
-                          <td className="p-2 sm:p-3 font-medium">{r.rollNumber}</td>
+                        <tr
+                          key={i}
+                          className="border-t hover:bg-gray-50 transition-colors">
+                          <td className="p-2 sm:p-3 font-medium">
+                            {r.rollNumber}
+                          </td>
                           <td className="p-2 sm:p-3">{r.name}</td>
-                          <td className="p-2 sm:p-3 hidden md:table-cell">{r.department}</td>
-                          <td className="p-2 sm:p-3 hidden lg:table-cell">{r.section}</td>
+                          <td className="p-2 sm:p-3 hidden md:table-cell">
+                            {r.department}
+                          </td>
+                          <td className="p-2 sm:p-3 hidden lg:table-cell">
+                            {r.section}
+                          </td>
                           <td className="p-2 sm:p-3 text-xs text-gray-600">
                             {new Date(r.markedAt).toLocaleTimeString()}
                           </td>

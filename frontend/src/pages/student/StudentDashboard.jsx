@@ -68,7 +68,9 @@ export default function StudentDashboard() {
   return (
     <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 space-y-4 sm:space-y-6">
       <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">My Attendance Summary</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
+          My Attendance Summary
+        </h2>
 
         <div
           className={`p-4 sm:p-6 rounded-lg ${
@@ -76,31 +78,45 @@ export default function StudentDashboard() {
           }`}>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 text-center">
             <div className="bg-white/50 rounded-lg p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl font-bold text-gray-800">{attendance.totalDays}</div>
-              <div className="text-xs sm:text-sm text-gray-600 mt-1">Total Days</div>
+              <div className="text-2xl sm:text-3xl font-bold text-gray-800">
+                {attendance.totalDays}
+              </div>
+              <div className="text-xs sm:text-sm text-gray-600 mt-1">
+                Total Days
+              </div>
             </div>
             <div className="bg-white/50 rounded-lg p-3 sm:p-4">
               <div className="text-2xl sm:text-3xl font-bold text-green-600">
                 {attendance.presentDays}
               </div>
-              <div className="text-xs sm:text-sm text-gray-600 mt-1">Present</div>
+              <div className="text-xs sm:text-sm text-gray-600 mt-1">
+                Present
+              </div>
             </div>
             <div className="bg-white/50 rounded-lg p-3 sm:p-4">
               <div className="text-2xl sm:text-3xl font-bold text-red-600">
                 {attendance.absentDays}
               </div>
-              <div className="text-xs sm:text-sm text-gray-600 mt-1">Absent</div>
+              <div className="text-xs sm:text-sm text-gray-600 mt-1">
+                Absent
+              </div>
             </div>
             <div className="bg-white/50 rounded-lg p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl font-bold text-blue-600">{attendance.percentage}%</div>
-              <div className="text-xs sm:text-sm text-gray-600 mt-1">Percentage</div>
+              <div className="text-2xl sm:text-3xl font-bold text-blue-600">
+                {attendance.percentage}%
+              </div>
+              <div className="text-xs sm:text-sm text-gray-600 mt-1">
+                Percentage
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
-        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Attendance History</h2>
+        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
+          Attendance History
+        </h2>
 
         <div className="flex flex-col sm:flex-row gap-2 mb-4">
           <input
@@ -134,7 +150,9 @@ export default function StudentDashboard() {
         </div>
 
         {attendance.records.length === 0 ? (
-          <p className="text-gray-500 text-sm sm:text-base py-4 text-center">No attendance records</p>
+          <p className="text-gray-500 text-sm sm:text-base py-4 text-center">
+            No attendance records
+          </p>
         ) : (
           <div className="overflow-x-auto -mx-4 sm:mx-0">
             <div className="inline-block min-w-full align-middle">
@@ -149,7 +167,9 @@ export default function StudentDashboard() {
                   </thead>
                   <tbody>
                     {attendance.records.map((r, i) => (
-                      <tr key={i} className="border-t hover:bg-gray-50 transition-colors">
+                      <tr
+                        key={i}
+                        className="border-t hover:bg-gray-50 transition-colors">
                         <td className="p-2 sm:p-3 font-medium">
                           {new Date(r.date).toLocaleDateString()}
                         </td>
