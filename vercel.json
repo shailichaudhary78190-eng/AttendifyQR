@@ -1,0 +1,16 @@
+{
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "npm install --prefix backend && npm install --prefix frontend",
+  "functions": {
+    "backend/api/*.js": {
+      "runtime": "@vercel/node@18.x"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/backend/api/index.js"
+    }
+  ]
+}
