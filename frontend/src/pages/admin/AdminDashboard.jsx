@@ -86,24 +86,24 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div>
-      <div className="bg-white p-4 rounded shadow mb-6">
-        <div className="flex gap-4 border-b">
+    <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+      <div className="bg-white p-3 sm:p-4 rounded-lg shadow mb-4 sm:mb-6">
+        <div className="flex flex-wrap gap-2 sm:gap-4 border-b overflow-x-auto">
           <button
             onClick={() => setTab("students")}
-            className={`px-4 py-2 font-medium ${
+            className={`px-3 sm:px-4 py-2 font-medium whitespace-nowrap text-sm sm:text-base ${
               tab === "students"
                 ? "border-b-2 border-blue-600 text-blue-600"
-                : "text-gray-600"
+                : "text-gray-600 hover:text-blue-500"
             }`}>
             Students
           </button>
           <button
             onClick={() => setTab("scanner")}
-            className={`px-4 py-2 font-medium ${
+            className={`px-3 sm:px-4 py-2 font-medium whitespace-nowrap text-sm sm:text-base ${
               tab === "scanner"
                 ? "border-b-2 border-blue-600 text-blue-600"
-                : "text-gray-600"
+                : "text-gray-600 hover:text-blue-500"
             }`}>
             Mark Attendance
           </button>
@@ -112,10 +112,10 @@ export default function AdminDashboard() {
               setTab("attendance");
               loadAttendance();
             }}
-            className={`px-4 py-2 font-medium ${
+            className={`px-3 sm:px-4 py-2 font-medium whitespace-nowrap text-sm sm:text-base ${
               tab === "attendance"
                 ? "border-b-2 border-blue-600 text-blue-600"
-                : "text-gray-600"
+                : "text-gray-600 hover:text-blue-500"
             }`}>
             Today's Attendance
           </button>
@@ -123,13 +123,13 @@ export default function AdminDashboard() {
       </div>
 
       {tab === "students" && (
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white p-4 rounded shadow">
-            <h2 className="font-semibold mb-3">Add Student</h2>
+        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
+            <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Add Student</h2>
 
             {message.text && (
               <div
-                className={`mb-4 p-3 rounded ${
+                className={`mb-4 p-3 rounded-lg text-sm sm:text-base ${
                   message.type === "success"
                     ? "bg-green-50 text-green-700 border border-green-200"
                     : "bg-red-50 text-red-700 border border-red-200"
@@ -138,9 +138,9 @@ export default function AdminDashboard() {
               </div>
             )}
 
-            <form className="space-y-2" onSubmit={addStudent}>
+            <form className="space-y-2 sm:space-y-3" onSubmit={addStudent}>
               <input
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-blue-500"
                 type="email"
                 placeholder="Email *"
                 required
@@ -148,14 +148,14 @@ export default function AdminDashboard() {
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
               />
               <input
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-blue-500"
                 placeholder="Full Name *"
                 required
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
               />
               <input
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-blue-500"
                 placeholder="Roll Number *"
                 required
                 value={form.rollNumber}
@@ -164,7 +164,7 @@ export default function AdminDashboard() {
                 }
               />
               <input
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-blue-500"
                 placeholder="Department (e.g., MCA) *"
                 required
                 value={form.department}
@@ -173,100 +173,106 @@ export default function AdminDashboard() {
                 }
               />
               <input
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-blue-500"
                 placeholder="Semester (e.g., 3rd) *"
                 required
                 value={form.semester}
                 onChange={(e) => setForm({ ...form, semester: e.target.value })}
               />
               <input
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-blue-500"
                 placeholder="Section (e.g., A) *"
                 required
                 value={form.section}
                 onChange={(e) => setForm({ ...form, section: e.target.value })}
               />
               <input
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-blue-500"
                 placeholder="Photo URL (optional)"
                 value={form.photo}
                 onChange={(e) => setForm({ ...form, photo: e.target.value })}
               />
-              <button className="w-full bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700 font-medium">
+              <button className="w-full bg-green-600 text-white px-3 py-2 sm:py-3 rounded-lg hover:bg-green-700 font-medium text-sm sm:text-base transition-colors shadow-sm">
                 Add Student
               </button>
             </form>
           </div>
 
-          <div className="bg-white p-4 rounded shadow">
-            <h2 className="font-semibold mb-3">Students ({students.length})</h2>
-            <div className="overflow-auto max-h-96">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50 sticky top-0">
-                  <tr>
-                    <th className="text-left p-2">Roll</th>
-                    <th className="text-left p-2">Name</th>
-                    <th className="text-left p-2">Dept</th>
-                    <th className="text-left p-2">Sem</th>
-                    <th className="text-left p-2">Sec</th>
-                    <th className="text-left p-2">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {students.map((s) => (
-                    <tr key={s.id} className="border-t hover:bg-gray-50">
-                      <td className="p-2">{s.rollNumber}</td>
-                      <td className="p-2">{s.name}</td>
-                      <td className="p-2">{s.department}</td>
-                      <td className="p-2">{s.semester}</td>
-                      <td className="p-2">{s.section}</td>
-                      <td className="p-2">
-                        <button
-                          className="text-blue-600 hover:underline"
-                          onClick={() => openIdCard(s.id)}>
-                          ID Card
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
+            <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Students ({students.length})</h2>
+            <div className="overflow-x-auto -mx-4 sm:mx-0">
+              <div className="inline-block min-w-full align-middle">
+                <div className="overflow-auto max-h-96">
+                  <table className="min-w-full text-xs sm:text-sm">
+                    <thead className="bg-gray-50 sticky top-0">
+                      <tr>
+                        <th className="text-left p-2 sm:p-3">Roll</th>
+                        <th className="text-left p-2 sm:p-3">Name</th>
+                        <th className="text-left p-2 sm:p-3 hidden sm:table-cell">Dept</th>
+                        <th className="text-left p-2 sm:p-3 hidden md:table-cell">Sem</th>
+                        <th className="text-left p-2 sm:p-3 hidden md:table-cell">Sec</th>
+                        <th className="text-left p-2 sm:p-3">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {students.map((s) => (
+                        <tr key={s.id} className="border-t hover:bg-gray-50 transition-colors">
+                          <td className="p-2 sm:p-3 font-medium">{s.rollNumber}</td>
+                          <td className="p-2 sm:p-3">{s.name}</td>
+                          <td className="p-2 sm:p-3 hidden sm:table-cell">{s.department}</td>
+                          <td className="p-2 sm:p-3 hidden md:table-cell">{s.semester}</td>
+                          <td className="p-2 sm:p-3 hidden md:table-cell">{s.section}</td>
+                          <td className="p-2 sm:p-3">
+                            <button
+                              className="text-blue-600 hover:text-blue-800 hover:underline text-xs sm:text-sm font-medium"
+                              onClick={() => openIdCard(s.id)}>
+                              QR
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
 
           {idCard && (
-            <div className="md:col-span-2 bg-white p-4 rounded shadow">
-              <h2 className="font-semibold mb-3">ID Card</h2>
-              <div className="flex gap-6 items-start">
+            <div className="lg:col-span-2 bg-white p-4 sm:p-6 rounded-lg shadow">
+              <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">ID Card & QR Code</h2>
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center sm:items-start">
                 <img
-                  src={idCard.student.photo || ""}
+                  src={idCard.student.photo || "https://via.placeholder.com/100"}
                   alt="photo"
-                  className="w-24 h-24 object-cover bg-gray-200 rounded"
+                  className="w-20 h-20 sm:w-24 sm:h-24 object-cover bg-gray-200 rounded-lg border-2 border-gray-300"
                 />
-                <div className="flex-1">
-                  <div className="mb-1">
+                <div className="flex-1 text-center sm:text-left">
+                  <div className="mb-2 text-sm sm:text-base">
                     <strong>Name:</strong> {idCard.student.name}
                   </div>
-                  <div className="mb-1">
+                  <div className="mb-2 text-sm sm:text-base">
                     <strong>Roll:</strong> {idCard.student.rollNumber}
                   </div>
-                  <div className="mb-1">
+                  <div className="mb-2 text-xs sm:text-sm text-gray-600">
                     <strong>Dept:</strong> {idCard.student.department} |
                     <strong> Sem:</strong> {idCard.student.semester} |
                     <strong> Sec:</strong> {idCard.student.section}
                   </div>
                 </div>
-                <img src={idCard.qr} alt="QR" className="w-32 h-32" />
+                <div className="bg-white p-2 rounded-lg border-2 border-gray-300 shadow-sm">
+                  <img src={idCard.qr} alt="QR" className="w-28 h-28 sm:w-32 sm:h-32" />
+                </div>
               </div>
               <button
-                className="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                className="mt-3 sm:mt-4 w-full sm:w-auto bg-blue-600 text-white px-6 py-2 sm:py-3 rounded-lg hover:bg-blue-700 font-medium transition-colors shadow-sm"
                 onClick={() => {
                   const a = document.createElement("a");
                   a.href = idCard.qr;
-                  a.download = `ID-${idCard.student.rollNumber}.png`;
+                  a.download = `QR-${idCard.student.rollNumber}.png`;
                   a.click();
                 }}>
-                Download PNG
+                Download QR Code
               </button>
             </div>
           )}
@@ -276,40 +282,44 @@ export default function AdminDashboard() {
       {tab === "scanner" && <ScannerTab onComplete={loadAttendance} />}
 
       {tab === "attendance" && (
-        <div className="bg-white p-4 rounded shadow">
-          <h2 className="font-semibold mb-3">
+        <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
+          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
             Today's Attendance ({new Date().toLocaleDateString()})
           </h2>
           {attendance.length === 0 ? (
-            <p className="text-gray-500 text-sm py-4">
+            <p className="text-gray-500 text-sm sm:text-base py-4 text-center">
               No attendance marked today
             </p>
           ) : (
-            <div className="overflow-auto max-h-96">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50 sticky top-0">
-                  <tr>
-                    <th className="text-left p-2">Roll Number</th>
-                    <th className="text-left p-2">Name</th>
-                    <th className="text-left p-2">Department</th>
-                    <th className="text-left p-2">Section</th>
-                    <th className="text-left p-2">Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {attendance.map((r, i) => (
-                    <tr key={i} className="border-t hover:bg-gray-50">
-                      <td className="p-2">{r.rollNumber}</td>
-                      <td className="p-2">{r.name}</td>
-                      <td className="p-2">{r.department}</td>
-                      <td className="p-2">{r.section}</td>
-                      <td className="p-2 text-xs text-gray-600">
-                        {new Date(r.markedAt).toLocaleTimeString()}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="overflow-x-auto -mx-4 sm:mx-0">
+              <div className="inline-block min-w-full align-middle">
+                <div className="overflow-auto max-h-96">
+                  <table className="min-w-full text-xs sm:text-sm">
+                    <thead className="bg-gray-50 sticky top-0">
+                      <tr>
+                        <th className="text-left p-2 sm:p-3">Roll</th>
+                        <th className="text-left p-2 sm:p-3">Name</th>
+                        <th className="text-left p-2 sm:p-3 hidden md:table-cell">Department</th>
+                        <th className="text-left p-2 sm:p-3 hidden lg:table-cell">Section</th>
+                        <th className="text-left p-2 sm:p-3">Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {attendance.map((r, i) => (
+                        <tr key={i} className="border-t hover:bg-gray-50 transition-colors">
+                          <td className="p-2 sm:p-3 font-medium">{r.rollNumber}</td>
+                          <td className="p-2 sm:p-3">{r.name}</td>
+                          <td className="p-2 sm:p-3 hidden md:table-cell">{r.department}</td>
+                          <td className="p-2 sm:p-3 hidden lg:table-cell">{r.section}</td>
+                          <td className="p-2 sm:p-3 text-xs text-gray-600">
+                            {new Date(r.markedAt).toLocaleTimeString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           )}
         </div>

@@ -236,6 +236,6 @@ This is an academic project for educational purposes.
 
 ---
 
-**Developed by**: [Your Name]  
+**Developed by**: Shaili & Bhawana  
 **Course**: MCA 3rd Semester  
 **Project**: QR Attendance System

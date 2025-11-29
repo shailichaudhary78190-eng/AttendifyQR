@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { API } from "../../store/auth.js";
 import { QrReader } from "react-qr-reader";
+import Modal from "../../components/Modal.jsx";
 
 export default function ScannerTab({ onComplete }) {
   const [list, setList] = useState([]);
   const [status, setStatus] = useState("Initializing camera...");
   const [cameraError, setCameraError] = useState(null);
   const [lastScanned, setLastScanned] = useState(null);
+  const [modal, setModal] = useState({ isOpen: false, type: "", title: "", message: "" });
 
   const loadToday = async () => {
     try {
@@ -33,27 +35,78 @@ export default function ScannerTab({ onComplete }) {
         qrToken,
         date: today,
       });
+      
+      // Show success modal with student name
+      setModal({
+        isOpen: true,
+        type: "success",
+        title: "Attendance Marked! ✓",
+        message: (
+          <div className="space-y-2">
+            <p className="text-xl font-bold text-gray-800">{data.student?.name || "Student"}</p>
+            <p className="text-sm text-gray-600">Roll No: {data.student?.rollNumber || "N/A"}</p>
+            <p className="text-sm text-gray-600">
+              {data.student?.department} | {data.student?.semester} | Sec {data.student?.section}
+            </p>
+            <p className="text-green-600 font-semibold mt-3">{data.message || "Marked present"}</p>
+            <p className="text-xs text-gray-500 mt-2">{new Date().toLocaleTimeString()}</p>
+          </div>
+        )
+      });
+      
       setStatus(`✓ ${data.message || "Marked present"}`);
       await loadToday();
       if (onComplete) onComplete();
 
-      // Clear status after 3 seconds
+      // Clear status after modal closes
       setTimeout(() => {
         setStatus("Ready to scan");
         setLastScanned(null);
-      }, 3000);
+      }, 5000);
     } catch (err) {
       const errorMsg = err.response?.data?.error || "Error marking attendance";
+      const studentInfo = err.response?.data?.student;
+      
+      // Show error modal
+      setModal({
+        isOpen: true,
+        type: "error",
+        title: errorMsg.includes("already") ? "Already Marked!" : "Error!",
+        message: (
+          <div className="space-y-2">
+            {studentInfo && (
+              <>
+                <p className="text-xl font-bold text-gray-800">{studentInfo.name}</p>
+                <p className="text-sm text-gray-600">Roll No: {studentInfo.rollNumber}</p>
+                <p className="text-sm text-gray-600">
+                  {studentInfo.department} | {studentInfo.semester} | Sec {studentInfo.section}
+                </p>
+              </>
+            )}
+            <p className="text-red-600 font-semibold mt-3">{errorMsg}</p>
+          </div>
+        )
+      });
+      
       setStatus(`✗ ${errorMsg}`);
       setTimeout(() => {
         setStatus("Ready to scan");
         setLastScanned(null);
-      }, 3000);
+      }, 5000);
     }
   };
 
   return (
-    <div className="grid md:grid-cols-2 gap-6">
+    <>
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={() => setModal({ ...modal, isOpen: false })}
+        type={modal.type}
+        title={modal.title}>
+        {modal.message}
+      </Modal>
+
+      <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
       <div className="bg-white p-4 rounded shadow">
         <h2 className="font-semibold mb-3">QR Scanner</h2>
 
@@ -139,6 +192,7 @@ export default function ScannerTab({ onComplete }) {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

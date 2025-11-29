@@ -48,15 +48,15 @@ export default function StudentDashboard() {
 
   if (error)
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md">
-          <h3 className="text-red-800 font-semibold mb-2">
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 sm:p-6 max-w-md w-full">
+          <h3 className="text-red-800 font-semibold mb-2 text-sm sm:text-base">
             Error Loading Attendance
           </h3>
-          <p className="text-red-600 text-sm mb-4">{error}</p>
+          <p className="text-red-600 text-xs sm:text-sm mb-4">{error}</p>
           <button
             onClick={loadAttendance}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+            className="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm">
             Retry
           </button>
         </div>
@@ -66,64 +66,64 @@ export default function StudentDashboard() {
   if (!attendance) return null;
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded shadow">
-        <h2 className="text-xl font-semibold mb-4">My Attendance Summary</h2>
+    <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 space-y-4 sm:space-y-6">
+      <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">My Attendance Summary</h2>
 
         <div
-          className={`p-6 rounded-lg ${
+          className={`p-4 sm:p-6 rounded-lg ${
             attendance.percentage >= 75 ? "bg-green-100" : "bg-red-100"
           }`}>
-          <div className="grid grid-cols-4 gap-4 text-center">
-            <div>
-              <div className="text-3xl font-bold">{attendance.totalDays}</div>
-              <div className="text-sm text-gray-600">Total Days</div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 text-center">
+            <div className="bg-white/50 rounded-lg p-3 sm:p-4">
+              <div className="text-2xl sm:text-3xl font-bold text-gray-800">{attendance.totalDays}</div>
+              <div className="text-xs sm:text-sm text-gray-600 mt-1">Total Days</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold text-green-600">
+            <div className="bg-white/50 rounded-lg p-3 sm:p-4">
+              <div className="text-2xl sm:text-3xl font-bold text-green-600">
                 {attendance.presentDays}
               </div>
-              <div className="text-sm text-gray-600">Present</div>
+              <div className="text-xs sm:text-sm text-gray-600 mt-1">Present</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold text-red-600">
+            <div className="bg-white/50 rounded-lg p-3 sm:p-4">
+              <div className="text-2xl sm:text-3xl font-bold text-red-600">
                 {attendance.absentDays}
               </div>
-              <div className="text-sm text-gray-600">Absent</div>
+              <div className="text-xs sm:text-sm text-gray-600 mt-1">Absent</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold">{attendance.percentage}%</div>
-              <div className="text-sm text-gray-600">Percentage</div>
+            <div className="bg-white/50 rounded-lg p-3 sm:p-4">
+              <div className="text-2xl sm:text-3xl font-bold text-blue-600">{attendance.percentage}%</div>
+              <div className="text-xs sm:text-sm text-gray-600 mt-1">Percentage</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded shadow">
-        <h2 className="font-semibold mb-3">Attendance History</h2>
+      <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
+        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Attendance History</h2>
 
-        <div className="flex gap-2 mb-4">
+        <div className="flex flex-col sm:flex-row gap-2 mb-4">
           <input
             type="date"
-            className="border p-2 rounded"
+            className="flex-1 border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-blue-500"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             placeholder="Start Date"
           />
           <input
             type="date"
-            className="border p-2 rounded"
+            className="flex-1 border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-blue-500"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             placeholder="End Date"
           />
           <button
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base font-medium"
             onClick={loadAttendance}>
             Filter
           </button>
           <button
-            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+            className="bg-gray-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-gray-700 transition-colors text-sm sm:text-base font-medium"
             onClick={() => {
               setStartDate("");
               setEndDate("");
@@ -134,40 +134,44 @@ export default function StudentDashboard() {
         </div>
 
         {attendance.records.length === 0 ? (
-          <p className="text-gray-500 text-sm py-4">No attendance records</p>
+          <p className="text-gray-500 text-sm sm:text-base py-4 text-center">No attendance records</p>
         ) : (
-          <div className="overflow-auto max-h-96">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 sticky top-0">
-                <tr>
-                  <th className="text-left p-2">Date</th>
-                  <th className="text-left p-2">Status</th>
-                  <th className="text-left p-2">Marked At</th>
-                </tr>
-              </thead>
-              <tbody>
-                {attendance.records.map((r, i) => (
-                  <tr key={i} className="border-t hover:bg-gray-50">
-                    <td className="p-2">
-                      {new Date(r.date).toLocaleDateString()}
-                    </td>
-                    <td className="p-2">
-                      <span
-                        className={`px-2 py-1 rounded text-xs ${
-                          r.status === "present"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-700"
-                        }`}>
-                        {r.status.toUpperCase()}
-                      </span>
-                    </td>
-                    <td className="p-2 text-xs text-gray-600">
-                      {new Date(r.markedAt).toLocaleString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="overflow-x-auto -mx-4 sm:mx-0">
+            <div className="inline-block min-w-full align-middle">
+              <div className="overflow-auto max-h-96">
+                <table className="min-w-full text-xs sm:text-sm">
+                  <thead className="bg-gray-50 sticky top-0">
+                    <tr>
+                      <th className="text-left p-2 sm:p-3">Date</th>
+                      <th className="text-left p-2 sm:p-3">Status</th>
+                      <th className="text-left p-2 sm:p-3">Marked At</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {attendance.records.map((r, i) => (
+                      <tr key={i} className="border-t hover:bg-gray-50 transition-colors">
+                        <td className="p-2 sm:p-3 font-medium">
+                          {new Date(r.date).toLocaleDateString()}
+                        </td>
+                        <td className="p-2 sm:p-3">
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                              r.status === "present"
+                                ? "bg-green-100 text-green-700"
+                                : "bg-red-100 text-red-700"
+                            }`}>
+                            {r.status.toUpperCase()}
+                          </span>
+                        </td>
+                        <td className="p-2 sm:p-3 text-xs text-gray-600">
+                          {new Date(r.markedAt).toLocaleString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         )}
       </div>
