@@ -1,12 +1,17 @@
-# QR Attendance System – MCA 3rd Semester Project
+# AttendifyQR – QR Attendance System
 
 Web-based student attendance tracking using QR codes on student ID cards. Built with MERN stack (MongoDB, Express, React, Node.js) and Tailwind CSS.
+
+## 🌐 Live Site
+
+- URL: https://attendifyqr.vercel.app
+- Backend API base: https://attendifyqr.vercel.app/api
 
 ## 🎯 Features
 
 - **Admin Portal**: Add students, generate QR-enabled ID cards, mark attendance via scanner
 - **Student Portal**: View attendance summary with percentage and detailed history
-- **QR Scanner**: Real-time QR code scanning for instant attendance marking
+- **QR Scanner**: Real-time QR code scanning with sound feedback for instant attendance marking
 - **Once-per-day Attendance**: Prevents duplicate attendance entries for the same day
 - **Responsive UI**: Modern, clean interface built with Tailwind CSS
 
@@ -15,7 +20,7 @@ Web-based student attendance tracking using QR codes on student ID cards. Built 
 - **Backend**: Node.js, Express.js, MongoDB with Mongoose
 - **Frontend**: React 18, Vite, React Router, Zustand (state management)
 - **Authentication**: JWT with role-based access control
-- **QR Code**: `qrcode` library for generation, `react-qr-reader` for scanning
+- **QR Code**: `qrcode` library for generation, `@yudiel/react-qr-scanner` for scanning (React 18 compatible)
 - **Styling**: Tailwind CSS
 
 ## 📋 Prerequisites
@@ -49,15 +54,25 @@ JWT_SECRET=your-super-secret-jwt-key-here
 PORT=5000
 ```
 
-### 4. Clean Up Old Database Collections (Optional)
+### 4. Create Admin Account
 
-If you have old/unused collections in MongoDB, run:
+Run the admin creation script:
 
 ```pwsh
-cd backend
-node cleanup-db.js
-cd ..
+Push-Location "C:\Users\malik\Downloads\AttendifyQR\backend"
+npm install
+node create-admin.js
+Pop-Location
 ```
+
+The script will:
+
+- Prompt for admin name, email, and password
+- Connect to your MongoDB database (ensure `MONGODB_URI` is set in `backend/.env`)
+- Create the admin account with secure password hashing
+- Display login credentials and the site URL
+
+**Note**: Default student password is `student123` (students can change it after first login)
 
 ## ▶️ Running the Application
 
@@ -107,13 +122,13 @@ npm run dev
 
 **Admin Account:**
 
-- Email: `admin@example.com`
-- Password: `password123`
+- Create using `backend/create-admin.js` script (see setup step 4)
+- Use a strong, unique password when prompted
 
 **Student Accounts:**
-Students are created by admin with default password:
 
-- Default password for all new students: `student123`
+- Created by admin with default password: `student123`
+- Students can change their password from "My Profile" section after first login
 
 ## 📱 How to Use
 
@@ -139,10 +154,14 @@ Students are created by admin with default password:
 
 ### For Students:
 
-1. **Login** with student email and default password (`student123`)
+1. **Login** at `https://attendifyqr.vercel.app` with student email and default password (`student123`)
 2. **View Summary**: See total days, present days, absent days, and percentage
 3. **Filter History**: Use date filters to view attendance for specific periods
-4. **Check Status**: Green background indicates ≥75% attendance, red indicates <75%
+4. **Change Password**:
+   - Open the "My Profile" section at the top
+   - Enter current and new password
+   - Click "Change Password" to update securely
+5. **Check Status**: Green background indicates ≥75% attendance, red indicates <75%
 
 ## 🗂️ Project Structure
 
@@ -183,6 +202,7 @@ AttendifyQR/
 ### Student Routes (Protected)
 
 - `GET /api/student/attendance` - Get attendance summary and records
+- `POST /api/student/change-password` - Change password (requires `currentPassword`, `newPassword`)
 
 ## ⚠️ Troubleshooting
 
@@ -237,5 +257,4 @@ This is an academic project for educational purposes.
 ---
 
 **Developed by**: Shaili & Bhawana  
-**Course**: MCA 3rd Semester  
 **Project**: QR Attendance System

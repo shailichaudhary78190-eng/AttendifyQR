@@ -7,6 +7,11 @@ export default function StudentDashboard() {
   const [endDate, setEndDate] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [pwForm, setPwForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+  });
+  const [pwMessage, setPwMessage] = useState("");
 
   const loadAttendance = async () => {
     try {
@@ -35,6 +40,21 @@ export default function StudentDashboard() {
   useEffect(() => {
     loadAttendance();
   }, []);
+
+  const changePassword = async () => {
+    try {
+      setPwMessage("");
+      if (!pwForm.currentPassword || !pwForm.newPassword) {
+        setPwMessage("Please fill both password fields");
+        return;
+      }
+      const { data } = await API.post("/student/change-password", pwForm);
+      setPwMessage(data.message || "Password updated successfully");
+      setPwForm({ currentPassword: "", newPassword: "" });
+    } catch (err) {
+      setPwMessage(err.response?.data?.error || "Failed to update password");
+    }
+  };
 
   if (loading)
     return (
@@ -67,6 +87,41 @@ export default function StudentDashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 space-y-4 sm:space-y-6">
+      <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
+        <h2 className="text-lg sm:text-xl font-semibold mb-3">My Profile</h2>
+        <div className="grid sm:grid-cols-2 gap-3">
+          <input
+            type="password"
+            className="border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base"
+            placeholder="Current Password"
+            value={pwForm.currentPassword}
+            onChange={(e) =>
+              setPwForm({ ...pwForm, currentPassword: e.target.value })
+            }
+          />
+          <input
+            type="password"
+            className="border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base"
+            placeholder="New Password"
+            value={pwForm.newPassword}
+            onChange={(e) =>
+              setPwForm({ ...pwForm, newPassword: e.target.value })
+            }
+          />
+        </div>
+        <div className="mt-3 flex flex-col sm:flex-row gap-2">
+          <button
+            className="bg-blue-600 text-white px-4 py-2 sm:py-3 rounded-lg hover:bg-blue-700 text-sm sm:text-base"
+            onClick={changePassword}>
+            Change Password
+          </button>
+          {pwMessage && (
+            <span className="text-sm sm:text-base text-gray-700">
+              {pwMessage}
+            </span>
+          )}
+        </div>
+      </div>
       <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
         <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
           My Attendance Summary

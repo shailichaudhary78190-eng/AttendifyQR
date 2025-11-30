@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+// Admin QR Scanner Tab
+// Purpose: Scan student QR, mark attendance once per day, and show clear feedback.
+// Notes: Uses @yudiel/react-qr-scanner for React 18 compatibility; plays a beep on successful decode.
+import React, { useEffect, useMemo, useState } from "react";
 import { API } from "../../store/auth.js";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import Modal from "../../components/Modal.jsx";
 
 export default function ScannerTab({ onComplete }) {
+  // Local state: list of today's attendees; UI status; camera errors; last QR to prevent double processing
   const [list, setList] = useState([]);
   const [status, setStatus] = useState("Initializing camera...");
   const [cameraError, setCameraError] = useState(null);
@@ -15,8 +19,22 @@ export default function ScannerTab({ onComplete }) {
     message: "",
   });
 
+  // Beep sound on successful scan
+  const beep = useMemo(() => {
+    try {
+      const audio = new Audio(
+        new URL("../../assets/scanner-beep.mp3", import.meta.url).href
+      );
+      audio.volume = 0.5;
+      return audio;
+    } catch (e) {
+      return null;
+    }
+  }, []);
+
   const loadToday = async () => {
     try {
+      // Server returns formatted records for today; keeps UI simple
       const today = new Date().toISOString().slice(0, 10);
       const { data } = await API.get(`/admin/attendance/today?date=${today}`);
       setList(data);
@@ -30,6 +48,7 @@ export default function ScannerTab({ onComplete }) {
   }, []);
 
   const handleScan = async (qrToken) => {
+    // Debounce consecutive identical scans; reduces accidental duplicates
     if (!qrToken || qrToken === lastScanned) return;
     setLastScanned(qrToken);
     setStatus("Processing...");
@@ -41,7 +60,7 @@ export default function ScannerTab({ onComplete }) {
         date: today,
       });
 
-      // Show success modal with student name
+      // Success: show student info and a friendly confirmation
       setModal({
         isOpen: true,
         type: "success",
@@ -72,7 +91,7 @@ export default function ScannerTab({ onComplete }) {
       await loadToday();
       if (onComplete) onComplete();
 
-      // Clear status after modal closes
+      // Reset scanner status after a short delay; keeps flow snappy
       setTimeout(() => {
         setStatus("Ready to scan");
         setLastScanned(null);
@@ -81,7 +100,7 @@ export default function ScannerTab({ onComplete }) {
       const errorMsg = err.response?.data?.error || "Error marking attendance";
       const studentInfo = err.response?.data?.student;
 
-      // Show error modal
+      // Error: show context; if already marked, include student identity
       setModal({
         isOpen: true,
         type: "error",
@@ -145,6 +164,11 @@ export default function ScannerTab({ onComplete }) {
                   if (text) {
                     handleScan(text);
                     setStatus("QR detected");
+                    if (beep) {
+                      // Play non-blocking
+                      beep.currentTime = 0;
+                      beep.play().catch(() => {});
+                    }
                   }
                 }}
                 onError={(error) => {

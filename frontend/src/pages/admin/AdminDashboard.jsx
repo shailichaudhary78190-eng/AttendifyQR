@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { API } from "../../store/auth.js";
-import ScannerTab from "./ScannerTab.jsx";
+const ScannerTab = React.lazy(() => import("./ScannerTab.jsx"));
 
 export default function AdminDashboard() {
   const [tab, setTab] = useState("students");
@@ -307,7 +307,12 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {tab === "scanner" && <ScannerTab onComplete={loadAttendance} />}
+      {tab === "scanner" && (
+        <React.Suspense
+          fallback={<div className="p-4">Loading scanner...</div>}>
+          <ScannerTab onComplete={loadAttendance} />
+        </React.Suspense>
+      )}
 
       {tab === "attendance" && (
         <div className="bg-white p-4 sm:p-6 rounded-lg shadow">

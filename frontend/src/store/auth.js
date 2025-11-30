@@ -1,10 +1,14 @@
+// Auth store
+// Purpose: Manage JWT auth state and pre-configured Axios client.
+// Notes: Keeps token/user in localStorage to persist across refreshes.
 import { create } from "zustand";
 import axios from "axios";
 
-const API_BASE = import.meta?.env?.VITE_API_URL || "http://localhost:5000/api";
+
+const API_BASE = import.meta?.env?.VITE_API_URL;
 const API = axios.create({ baseURL: API_BASE });
 
-// Initialize token from localStorage on app load
+// Read any existing token once and attach to Axios headers
 const storedToken = localStorage.getItem("token");
 if (storedToken) {
   API.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
@@ -13,6 +17,7 @@ if (storedToken) {
 export const useAuthStore = create((set) => ({
   user: JSON.parse(localStorage.getItem("user") || "null"),
   token: localStorage.getItem("token") || null,
+  // Log in: store token + user and prime Axios for authenticated requests
   login: async (email, password) => {
     const { data } = await API.post("/auth/login", { email, password });
     localStorage.setItem("token", data.token);
@@ -29,6 +34,7 @@ export const useAuthStore = create((set) => ({
     });
     return data;
   },
+  // Log out: clear local state and remove Authorization header
   logout: () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
