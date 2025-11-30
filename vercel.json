@@ -19,8 +19,12 @@
       "dest": "backend/api/index.js"
     },
     {
-      "src": "/(.*)",
+      "src": "/(.*\\.(js|css|ico|png|jpg|svg|json))",
       "dest": "frontend/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/index.html"
     }
   ],
   "installCommand": "npm install --prefix frontend --legacy-peer-deps && npm install --prefix backend --legacy-peer-deps"
