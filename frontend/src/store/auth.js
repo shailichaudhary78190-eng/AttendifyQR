@@ -4,8 +4,8 @@
 import { create } from "zustand";
 import axios from "axios";
 
-
-const API_BASE = import.meta?.env?.VITE_API_URL;
+const API_BASE =
+  import.meta?.env?.VITE_API_URL || "https://attendifyqr.vercel.app/api";
 const API = axios.create({ baseURL: API_BASE });
 
 // Read any existing token once and attach to Axios headers
