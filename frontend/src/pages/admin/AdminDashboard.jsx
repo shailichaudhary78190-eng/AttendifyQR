@@ -89,59 +89,59 @@ export default function AdminDashboard() {
     // Create a canvas to combine student details with QR code
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    
-    // Set canvas size for ID card
-    canvas.width = 600;
-    canvas.height = 350;
-    
+
+    // Set canvas size for ID card (larger for better quality)
+    canvas.width = 800;
+    canvas.height = 450;
+
     // Background
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
     // Border
     ctx.strokeStyle = "#2563eb";
     ctx.lineWidth = 4;
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
-    
+
     // Header
     ctx.fillStyle = "#2563eb";
-    ctx.fillRect(0, 0, canvas.width, 60);
+    ctx.fillRect(0, 0, canvas.width, 70);
     ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 24px Arial";
+    ctx.font = "bold 28px Arial";
     ctx.textAlign = "center";
-    ctx.fillText("Student ID Card", canvas.width / 2, 38);
-    
+    ctx.fillText("Student ID Card", canvas.width / 2, 45);
+
     // Student details
     ctx.fillStyle = "#000000";
-    ctx.font = "bold 18px Arial";
+    ctx.font = "bold 20px Arial";
     ctx.textAlign = "left";
-    ctx.fillText("Name:", 30, 100);
-    ctx.fillText("Roll Number:", 30, 140);
-    ctx.fillText("Department:", 30, 180);
-    ctx.fillText("Semester:", 30, 220);
-    ctx.fillText("Section:", 30, 260);
-    
-    ctx.font = "16px Arial";
+    ctx.fillText("Name:", 40, 130);
+    ctx.fillText("Roll Number:", 40, 180);
+    ctx.fillText("Department:", 40, 230);
+    ctx.fillText("Semester:", 40, 280);
+    ctx.fillText("Section:", 40, 330);
+
+    ctx.font = "18px Arial";
     ctx.fillStyle = "#333333";
-    ctx.fillText(idCard.student.name, 180, 100);
-    ctx.fillText(idCard.student.rollNumber, 180, 140);
-    ctx.fillText(idCard.student.department, 180, 180);
-    ctx.fillText(idCard.student.semester, 180, 220);
-    ctx.fillText(idCard.student.section, 180, 260);
-    
+    ctx.fillText(idCard.student.name, 220, 130);
+    ctx.fillText(idCard.student.rollNumber, 220, 180);
+    ctx.fillText(idCard.student.department, 220, 230);
+    ctx.fillText(idCard.student.semester, 220, 280);
+    ctx.fillText(idCard.student.section, 220, 330);
+
     // Load and draw QR code
     const qrImage = new Image();
     qrImage.crossOrigin = "anonymous";
     qrImage.onload = () => {
-      // Draw QR code on the right side
-      ctx.drawImage(qrImage, 380, 80, 180, 180);
-      
+      // Draw larger QR code on the right side
+      ctx.drawImage(qrImage, 520, 100, 240, 240);
+
       // Footer
       ctx.fillStyle = "#666666";
-      ctx.font = "12px Arial";
+      ctx.font = "14px Arial";
       ctx.textAlign = "center";
-      ctx.fillText("AttendifyQR - Scan for Attendance", canvas.width / 2, 320);
-      
+      ctx.fillText("AttendifyQR - Scan for Attendance", canvas.width / 2, 410);
+
       // Download
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob);
@@ -154,7 +154,6 @@ export default function AdminDashboard() {
     };
     qrImage.src = idCard.qr;
   };
-
   return (
     <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
       <div className="bg-white p-3 sm:p-4 rounded-lg shadow mb-4 sm:mb-6">
