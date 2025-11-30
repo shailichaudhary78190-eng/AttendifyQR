@@ -85,6 +85,76 @@ export default function AdminDashboard() {
     setIdCard(data);
   };
 
+  const downloadIdCard = () => {
+    // Create a canvas to combine student details with QR code
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    
+    // Set canvas size for ID card
+    canvas.width = 600;
+    canvas.height = 350;
+    
+    // Background
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Border
+    ctx.strokeStyle = "#2563eb";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+    
+    // Header
+    ctx.fillStyle = "#2563eb";
+    ctx.fillRect(0, 0, canvas.width, 60);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 24px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("Student ID Card", canvas.width / 2, 38);
+    
+    // Student details
+    ctx.fillStyle = "#000000";
+    ctx.font = "bold 18px Arial";
+    ctx.textAlign = "left";
+    ctx.fillText("Name:", 30, 100);
+    ctx.fillText("Roll Number:", 30, 140);
+    ctx.fillText("Department:", 30, 180);
+    ctx.fillText("Semester:", 30, 220);
+    ctx.fillText("Section:", 30, 260);
+    
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#333333";
+    ctx.fillText(idCard.student.name, 180, 100);
+    ctx.fillText(idCard.student.rollNumber, 180, 140);
+    ctx.fillText(idCard.student.department, 180, 180);
+    ctx.fillText(idCard.student.semester, 180, 220);
+    ctx.fillText(idCard.student.section, 180, 260);
+    
+    // Load and draw QR code
+    const qrImage = new Image();
+    qrImage.crossOrigin = "anonymous";
+    qrImage.onload = () => {
+      // Draw QR code on the right side
+      ctx.drawImage(qrImage, 380, 80, 180, 180);
+      
+      // Footer
+      ctx.fillStyle = "#666666";
+      ctx.font = "12px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText("AttendifyQR - Scan for Attendance", canvas.width / 2, 320);
+      
+      // Download
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${idCard.student.name.replace(/\s+/g, "_")}_ID_Card.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    };
+    qrImage.src = idCard.qr;
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
       <div className="bg-white p-3 sm:p-4 rounded-lg shadow mb-4 sm:mb-6">
@@ -294,13 +364,8 @@ export default function AdminDashboard() {
               </div>
               <button
                 className="mt-3 sm:mt-4 w-full sm:w-auto bg-blue-600 text-white px-6 py-2 sm:py-3 rounded-lg hover:bg-blue-700 font-medium transition-colors shadow-sm"
-                onClick={() => {
-                  const a = document.createElement("a");
-                  a.href = idCard.qr;
-                  a.download = `QR-${idCard.student.rollNumber}.png`;
-                  a.click();
-                }}>
-                Download QR Code
+                onClick={downloadIdCard}>
+                Download ID Card
               </button>
             </div>
           )}
